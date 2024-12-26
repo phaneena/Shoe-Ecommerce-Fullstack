@@ -1,5 +1,7 @@
 import { ErrorMessage, Form, Field, Formik } from "formik";
 import * as Yup from "yup";
+import "./Register.css";
+import React from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,15 +9,18 @@ import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
+  navigate('/login')
   const initialValues = {
     name: "",
     username: "",
     email: "",
     password: "",
-    confirmpassword: "",
+    confirmpassword: ""
   };
   const validationSchema = Yup.object({
-    name: Yup.string().required("name is required"),
+    name: Yup.string()
+      .matches(/^[a-zA-Z ]+$/, "Name can only contain letters and spaces")
+      .required("name is required"),
     username: Yup.string().required("username is required"),
     email: Yup.string()
       .email("invalid email format")
@@ -73,90 +78,58 @@ function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center p-32 mt-1">
-      <div className="bg-white p-6 rounded-lg shadow-md w-80">
-        <h3 className="text-xl font-bold text-center mb-4">Sign Up</h3>
+    <div className="main">
+      <div className="signup max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold mb-5 text-center text-[black]">
+          Sign up
+        </h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={RegisterSubmit}
         >
           <Form>
-            <div className="mb-4">
-              <Field
-                type="text"
-                name="name"
-                placeholder="Name"
-                className="w-full px-3 py-2 border rounded-lg "
-              />
-              <br />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+            <div className="signupform mb-4">
+              <Field type="text" placeholder="Name" id="name" name="name" />
+              <ErrorMessage name="name" component="div" className="error" />
             </div>
-            <div className="mb-4">
+            <div className="signupform  mb-4">
               <Field
                 type="text"
                 placeholder="Username"
-                className="w-full px-3 py-2 border rounded-lg "
+                id="username"
                 name="username"
               />
-              <ErrorMessage
-                name="username"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+              <ErrorMessage name="username" component="div" className="error" />
             </div>
-            <div className="mb-4">
-              <Field
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="w-full px-3 py-2 border rounded-lg "
-              />
-              <br />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+            <div className="signupform  mb-4">
+              <Field type="email" placeholder="Email" id="email" name="email" />
+              <ErrorMessage name="email" component="div" className="error" />
             </div>
-            <div className="mb-4">
+            <div className="signupform mb-4">
               <Field
                 type="password"
-                name="password"
                 placeholder="Password"
-                className="w-full px-3 py-2 border rounded-lg "
-              />
-              <br />
-              <ErrorMessage
+                id="password"
                 name="password"
-                component="div"
-                className="text-red-500 text-sm mt-1"
               />
+              <ErrorMessage name="password" component="div" className="error" />
             </div>
-
-            <div className="mb-4">
+            <div className="signupform mb-4">
               <Field
                 type="password"
-                name="confirmPassword"
                 placeholder="Confirm Password"
-                className="w-full px-3 py-2 border rounded-lg "
+                id="confirmpassword"
+                name="confirmpassword"
               />
-              <br />
               <ErrorMessage
-                name="confirmPassword"
+                name="confirmpassword"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="error"
               />
             </div>
             <div className="signupbutn">
-              <button
-                type="submit"
-                className="w-60 bg-blue-400 text-white py-2 rounded-lg hover:bg-blue-500 "
-              >
+              <button type="submit" className="submit-button">
                 Sign up
               </button>
             </div>

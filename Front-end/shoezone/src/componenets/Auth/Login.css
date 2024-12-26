@@ -1,64 +1,96 @@
-/* Login.css */
-.login{
-    width: 100%;
-    max-width: 300px;
-    margin: 100px auto;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-    background-color: #fff;
+
+.login-main {
+  height: 100vh;
+  width: 100vw; 
+  background-color: #bdc3c9;  
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  padding: 20px; 
+  box-sizing: border-box; 
+}
+
+
+.login {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  width: 100%; 
+  max-width: 400px; 
+  box-sizing: border-box; 
+}
+
+
+.login h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+
+.loginform input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.submit-button {
+  padding: 10px;
+  background-color: #1a1aec;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.submit-button:hover {
+  background-color: #1515d1;
+}
+
+
+.register-link {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.sign-up-link {
+  color: blue;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.sign-up-link:hover {
+  color: darkblue;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .login {
+    max-width: 90%; 
+    padding: 15px; 
   }
-  
+
   .login h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    font-size: 30px; 
   }
-  
-  .loginform {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 20px;
-  }
-  
-  .loginform input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .error {
-    color: red;
-    font-size: 14px;
-  }
-  
+
   .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #1a1aec;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+    font-size: 14px; 
   }
-  
-  .submit-button:hover {
-    background-color: #218838;
-  }
-  .sign-up-link{
-    color: blue;
-    text-decoration: underline;
-  }
-  .sign-up-link:hover{
-    color: darkblue;
-  }
+}
