@@ -3,7 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from '../../api/axiosInstance'
+import { endPoints } from "../../api/endPoints";
 import { toast, ToastContainer } from "react-toastify";
 // import { productcontext } from "../../Context/Admincontext";
 
@@ -22,38 +23,20 @@ function Login() {
       .required("Password is required"),
   });
 
-  const onSubmit = async (values) => {
-    try {
-      if (
-        values.email === "pphaneena02@gmail.com" &&
-        values.password === "Haneena@321P"
-      ) {
-        // setLogged(true);
-        navigate("/admin");
-      } else {
-        const response = await axios.get("http://localhost:5000/users");
-        console.log(response);
-
-        const user = response.data.find(
-          (val) =>
-            val.email === values.email && val.password === values.password
-        );
-
-        if (user) {
-          if (!user.status) {
-            toast.error("You are blocked");
-            return;
-          }
-          localStorage.setItem("id", user.id);
-          localStorage.setItem("name", user.name);
-          navigate("/");
-        } else {
-          toast.success("invalid email and password");
-        }
-      }
-    } catch (error) {
-      console.log("login error", error);
-      toast.success("An error occur.Please try again");
+  const onSubmit = async (values,{resetForm}) => {
+    try{
+      const response=await axiosInstance.post(endPoints.AUTH.LOGIN,values)
+      console.log(response)
+      const userRole=response.data.user.isAdmin ?'admin':'user'
+      console.log(userRole)
+      localStorage.setItem('user',JSON.stringify(response.data.user))
+      navigate(userRole==='admin'?'/admin':'/')
+      resetForm()
+      toast.success(response.data.message)
+    }
+    catch(error){
+      const errorMessage=error.response?.data?.message ||'Something went wrong.Please try again'
+      toast.error(errorMessage)
     }
   };
 

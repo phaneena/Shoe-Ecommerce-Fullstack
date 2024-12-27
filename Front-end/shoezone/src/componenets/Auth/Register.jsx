@@ -1,21 +1,21 @@
 import { ErrorMessage, Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import "./Register.css";
-import React from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { endPoints } from "../../api/endPoints";
 
 function Register() {
   const navigate = useNavigate();
-  navigate('/login')
+  navigate("/login");
   const initialValues = {
     name: "",
     username: "",
     email: "",
     password: "",
-    confirmpassword: ""
+    confirmpassword: "",
   };
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -41,43 +41,26 @@ function Register() {
   });
   const RegisterSubmit = async (values, { resetForm }) => {
     try {
-      console.log("Form data", values);
-      const existingUsername = await axios.get("http://localhost:5000/users", {
-        params: { username: values.username },
-      });
-      if (existingUsername.data.length > 0) {
-        toast.success("Username already exists.You can login");
-        return;
-      }
-      if (values.email === "pphaneena02@gmail.com") {
-        toast.success("This email already existing.");
-        return;
-      }
-      const existingEmail = await axios.get("http://localhost:5000/users", {
-        params: { email: values.email },
-      });
-      if (existingEmail.data.length > 0) {
-        toast.success("Email already exists.Please choose another one");
-        return;
-      }
-
-      const { confirmpassword, ...userData } = values;
-
-      const response = await axios.post(
-        "http://localhost:5000/users",
-        userData
+      const { confirmpassword, ...payload } = values;
+      const response = await axiosInstance.post(
+        endPoints.AUTH.REGISTER,
+        payload
       );
-      console.log("Registration success", response.data);
-      toast.success("Registration successful");
+      console.log(response)
+      toast.success(response.data.message);
+
       resetForm();
       navigate("/login");
     } catch (error) {
-      console.log("registration failed", error);
-      alert("Registration failed.Please try again");
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
     }
   };
 
   return (
+    
     <div className="main">
       <div className="signup max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-5 text-center text-[black]">
