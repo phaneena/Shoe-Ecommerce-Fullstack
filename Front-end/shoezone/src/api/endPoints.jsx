@@ -3,5 +3,8 @@ export const endPoints = {
       LOGIN: "/login",
       REGISTER: "/register",
       REFRESH_TOKEN: "/refresh-token",
+    },
+    PRODUCTS:{
+      GET_PRODUCTS:"/users/getProducts"
     }
 }
