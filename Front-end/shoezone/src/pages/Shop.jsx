@@ -45,6 +45,12 @@ function Shop() {
     dispatch(getAllProducts({ page}));
   }, [dispatch,page]);
 
+  //addtocart
+  const handleAddToCart=(id)=>{
+    dispatch(addToCart(id))
+    toast.success('Added to cart successfully')
+  }
+
   if (loading){
     return <div>Loading...</div>;
   }
@@ -81,7 +87,7 @@ function Shop() {
               <button
                 className="w-full mt-3 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300"
                 onClick={() => {
-                    addToCart(product._id)
+                    handleAddToCart(product._id)
                 //   if (localStorage.getItem("id")) {
                 //     addToCart(product);
                 //     toast.success('Item added successfully')

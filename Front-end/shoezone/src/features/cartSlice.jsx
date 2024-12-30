@@ -10,7 +10,8 @@ export const addToCart = createAsyncThunk(
       const response = await axiosInstance.post(
         endPoints.CART.ADD_TO_CART(productId)
       );
-      return response.data.cart.product;
+      console.log(response.data)
+      return response.data.cart;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "error fetching cart"
@@ -23,7 +24,7 @@ export const addToCart = createAsyncThunk(
 export const getCart=createAsyncThunk('cart/getCart',async(_,{rejectWithValue})=>{
     try{
         const response=await axiosInstance.get(endPoints.CART.GET_CART)
-        // console.log(response)
+        // console.log(response.data.cart.products)
         return response.data.cart.products
     }
     catch(error){
