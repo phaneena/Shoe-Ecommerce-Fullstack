@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import { shoecontext } from "../Context/ShopContext";
 import { useNavigate } from "react-router-dom";
+import { getCart ,removeCart} from "../features/cartSlice";
 // import axios from "axios";
 
 function Cart() {
     const navigate = useNavigate();
-    // const { cart, handleRemove, totalPrice } = useContext(shoecontext);
+    const dispatch=useDispatch()
+    const {cart}=useSelector(state=>state.cart)
     const[cartquantity,setCartquantity]=useState(0)
     const decrement= (id)=>{
         // const id=localStorage.getItem('id')
@@ -26,6 +29,14 @@ function Cart() {
         setCartquantity((prevcounts)=>({
             ...prevcounts,[id]:(prevcounts[id] || 1) +1
         }))
+    }
+
+    useEffect(() => {
+        dispatch(getCart());
+      }, [dispatch]);
+      
+    const handleRemove=(id)=>{
+        dispatch(removeCart(id))
     }
     return (
         <div className="px-4 sm:px-6 lg:px-8">
@@ -57,10 +68,10 @@ function Cart() {
                                         <button onClick={() => increment(product.id)} className="bg-gray-200 rounded px-2 flex items-center justify-center text-xl font-bold hover:bg-gray-400"> +</button>
                                     </div>
                                 </div>
-                                <p className="text-center text-gray-700">Quantity {product.quantity}</p>
+                                <p className="text-center text-gray-700"><strong>Quantity :</strong>{product.quantity}</p>
                                 <button 
                                     className="bg-black text-white px-6 py-2 rounded-2xl w-full mt-4 hover:bg-red-600 text-sm"
-                                    onClick={() => handleRemove(product)}
+                                    onClick={()=>handleRemove(product.id)}
                                 >
                                     REMOVE
                                 </button>
@@ -70,7 +81,7 @@ function Cart() {
 
                     <div className="flex flex-col items-center sm:items-end">
                         <div className="flex items-center justify-between w-full sm:w-auto mb-4">
-                            <h1 className="text-xl font-semibold">TOTAL:  ₹ {totalPrice}</h1>
+                            {/* <h1 className="text-xl font-semibold">TOTAL:  ₹ {totalPrice}</h1> */}
                         </div>
                         <button 
                             className="bg-gray-200 text-black px-8 py-2 rounded-2xl hover:bg-green-900 hover:text-white text-sm"

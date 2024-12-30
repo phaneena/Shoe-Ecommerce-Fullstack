@@ -14,7 +14,6 @@ export const getAllProducts = createAsyncThunk(
         endPoints.PRODUCTS.GET_PRODUCTS,
         { params: { categories, page, search } }
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(

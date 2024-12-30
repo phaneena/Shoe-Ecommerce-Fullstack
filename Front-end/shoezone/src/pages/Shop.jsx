@@ -7,16 +7,15 @@ import { IoMdClose } from "react-icons/io";
 // import { endPoints } from "../api/endPoints";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/productSlice";
+import { addToCart } from "../features/cartSlice";
 
 function Shop() {
-  //   const [productList, setProductList] = useState([]);
   // const [search,setSearch]=useState('')
-  //   const { handleAddToCart } = useContext(shoecontext);
   const dispatch = useDispatch();
   const { products, pagination, loading, error } = useSelector(
     (state) => state.product
   );
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
   const [page,setPage]=useState(1)
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -82,13 +81,14 @@ function Shop() {
               <button
                 className="w-full mt-3 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300"
                 onClick={() => {
-                  if (localStorage.getItem("id")) {
-                    //   handleAddToCart(product);
-                    // toast.success('Item added successfully')
-                  } else {
-                    toast.success("Must be logged in");
-                    navigate("/login");
-                  }
+                    addToCart(product._id)
+                //   if (localStorage.getItem("id")) {
+                //     addToCart(product);
+                //     toast.success('Item added successfully')
+                //   } else {
+                //     toast.success("Must be logged in");
+                //     navigate("/login");
+                //   }
                 }} // Call the add to cart function
               >
                 Add to Cart
@@ -140,38 +140,45 @@ function Shop() {
 
       {/* modal of product descriptions */}
       {selectedProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-lg w-full sm:max-w-sm relative max-h-[90vh] overflow-y-auto">
-            <IoMdClose
-              className="absolute top-4 right-4 cursor-pointer text-3xl text-gray-600 hover:text-gray-900"
-              onClick={closeModal}
-            />
-
-            <img
-              src={selectedProduct.images}
-              alt={selectedProduct.name}
-              className="w-full h-60 object-cover rounded-lg mb-4"
-            />
-
-            <h1 className="text-2xl font-bold mb-4">{selectedProduct.name}</h1>
-            <p className="text-gray-700 mb-2">₹ {selectedProduct.price}</p>
-            <p className="text-gray-700 mb-2"><h6>Category </h6>{selectedProduct.categories}</p>
-            <p className="text-gray-600 mb-4">
-             <h5>Description :</h5> {selectedProduct.description || "No description available."}
-            </p>
-
-            <button
-              className="bg-red-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-700 w-full"
-              onClick={() => {
-                //   handleAddToCart(selectedProduct);
-                closeModal();
-              }}
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-4 relative max-h-[90vh] overflow-y-auto">
+      <IoMdClose
+        className="absolute top-4 right-4 cursor-pointer text-3xl text-gray-600 hover:text-gray-900"
+        onClick={closeModal}
+      />
+      <img
+        src={selectedProduct.images}
+        alt={selectedProduct.name}
+        className="w-full h-40 sm:h-60 object-cover rounded-lg mb-4"
+      />
+      <h1 className="text-xl sm:text-2xl font-bold mb-4">
+        {selectedProduct.name}
+      </h1>
+      <p className="text-gray-700 mb-2"><strong>Price:</strong> ₹ {selectedProduct.price}</p>
+      <p className="text-gray-700 mb-2">
+        <strong>Category:</strong> {selectedProduct.categories}
+      </p>
+      <p className="text-gray-700 mb-2">
+        <strong>Quantity:</strong>{" "}
+        {selectedProduct.quantity}
+      </p>
+      <p className="text-gray-600 mb-4">
+        <strong>Description:</strong>{" "}
+        {selectedProduct.description || "No description available."}
+      </p>
+      
+      <button
+        className="bg-red-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-700 w-full"
+        onClick={() => {
+          addToCart(selectedProduct);
+          closeModal();
+        }}
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }
