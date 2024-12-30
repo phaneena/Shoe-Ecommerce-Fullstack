@@ -64,6 +64,8 @@ const cartSlice = createSlice({
         available: item.product.quantity,
       }));
     })
+
+    //getcart
     .addCase(getCart.pending,(state)=>{
         state.loading=true
         state.error=null
@@ -86,7 +88,11 @@ const cartSlice = createSlice({
         state.loading=false
         state.error=action.payload
     })
-    .addCase(removeCart.fulfilled)
+    //remove cart
+    .addCase(removeCart.fulfilled,(state,action)=>{
+        state.loading=false
+        state.cart=state.cart.filter((item)=>item.id!==action.payload)
+    })
   },
 });
 
