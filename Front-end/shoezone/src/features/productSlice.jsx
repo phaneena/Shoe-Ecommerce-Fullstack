@@ -14,6 +14,7 @@ export const getAllProducts = createAsyncThunk(
         endPoints.PRODUCTS.GET_PRODUCTS,
         { params: { categories, page, search } }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -40,13 +41,14 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    //fetch products
+      //fetch products
       .addCase(getAllProducts.pending, (state) => {
         (state.loading = true), (state.error = null);
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         (state.loading = false),
-          (state.products = action.payload.products),
+          (state.products = action.payload.product),
+          console.log(state.products),
           (state.pagination = action.payload.pagination);
       })
       .addCase(getAllProducts.rejected, (state, action) => {
@@ -55,4 +57,4 @@ const productSlice = createSlice({
   },
 });
 
-export default productSlice.reducer
+export default productSlice.reducer;

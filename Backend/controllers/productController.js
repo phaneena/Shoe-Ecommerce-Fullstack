@@ -11,21 +11,21 @@ exports.getallProducts=asyncHandler(async(req,res)=>{
         search,
         categories,
         page:parseInt(page,10) ||1,
-        limit:10
+        limit:12
     })
     if(product.length===0){
         res.status(200).json({
             status:STATUS.SUCCESS,
-            message:"no products found"
+            message:"no products found",
+            product:[],
         })
     }
-    else{
         res.status(200).json({
+
             status:STATUS.SUCCESS,
             product,
             pagination
         })
-    }
 })
 
 
