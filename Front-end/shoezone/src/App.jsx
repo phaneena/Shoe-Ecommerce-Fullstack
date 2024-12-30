@@ -3,6 +3,7 @@ import Register from "./componenets/Auth/Register"
 import Login from './componenets/Auth/Login';
 // import Layout from './componenets/Mainlayout';
 import Home from './pages/Home';
+import Shop from './pages/Shop';
 // import { LoginLayout } from './componenets/Loginlayout';
 // // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,6 +18,7 @@ function App() {
       <Route path='register' element={<Register />} />
       <Route path='login' element={<Login />} />
       <Route path='/' element={<Home />} />
+      <Route path='/shop' element={<Shop />} />
       {/* </Route> */}
       {/* <Route element={<Layout />} >
         

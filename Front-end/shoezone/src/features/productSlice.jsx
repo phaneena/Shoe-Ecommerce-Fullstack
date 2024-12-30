@@ -50,6 +50,7 @@ const productSlice = createSlice({
           (state.products = action.payload.product),
           console.log(state.products),
           (state.pagination = action.payload.pagination);
+          console.log(state.pagination)
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         (state.loading = false), (state.error = action.payload);

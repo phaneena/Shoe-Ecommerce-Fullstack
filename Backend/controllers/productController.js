@@ -18,13 +18,18 @@ exports.getallProducts=asyncHandler(async(req,res)=>{
             status:STATUS.SUCCESS,
             message:"no products found",
             product:[],
+            pagination:{
+                total:0,
+                page:0,
+                limit:0,
+                totalPages:0
+            }
         })
     }
         res.status(200).json({
-
-            status:STATUS.SUCCESS,
-            product,
-            pagination
+        status:STATUS.SUCCESS,
+        product,
+        pagination
         })
 })
 

@@ -17,6 +17,7 @@ function Shop() {
     (state) => state.product
   );
   const navigate = useNavigate();
+  const [page,setPage]=useState(1)
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const openModal = (productList) => {
@@ -26,6 +27,14 @@ function Shop() {
   const closeModal = () => {
     setSelectedProduct(null);
   };
+
+  //handle page
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= pagination.totalPages) {
+      setPage(newPage);
+    }
+  };
+  
   // const handleSearch=(e)=>{
   //     setSearch(e.target.value)
   // }
@@ -34,12 +43,15 @@ function Shop() {
   // })
 
   useEffect(() => {
-    dispatch(getAllProducts({ page: 1 }));
-  }, [dispatch]);
+    dispatch(getAllProducts({ page}));
+  }, [dispatch,page]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!products || products.length === 0) return <div>No products found</div>;
+  if (loading){
+    return <div>Loading...</div>;
+  }
+  if (error){
+    return <div>Error: {error}</div>;
+  } 
 
   console.log(products);
 
@@ -89,6 +101,43 @@ function Shop() {
       </div>
       <ToastContainer />
 
+      {/* pagination */}
+      <div className="flex justify-center items-center mt-10 space-x-4">
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+          className={`py-2 px-4 rounded bg-gray-500 text-white ${
+            page === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-600"
+          }`}
+        >
+          Previous
+        </button>
+        {[...Array(pagination.totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`py-2 px-4 rounded ${
+              page === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300 hover:bg-gray-400"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === pagination.totalPages}
+          className={`py-2 px-4 rounded bg-gray-500 text-white ${
+            page === pagination.totalPages
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-gray-600"
+          }`}
+        >
+          Next
+        </button>
+      </div>
+
       {/* modal of product descriptions */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -106,9 +155,9 @@ function Shop() {
 
             <h1 className="text-2xl font-bold mb-4">{selectedProduct.name}</h1>
             <p className="text-gray-700 mb-2">₹ {selectedProduct.price}</p>
-            <p className="text-gray-700 mb-2">{selectedProduct.categories}</p>
+            <p className="text-gray-700 mb-2"><h6>Category </h6>{selectedProduct.categories}</p>
             <p className="text-gray-600 mb-4">
-              {selectedProduct.description || "No description available."}
+             <h5>Description :</h5> {selectedProduct.description || "No description available."}
             </p>
 
             <button
