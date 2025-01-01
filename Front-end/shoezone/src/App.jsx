@@ -5,6 +5,7 @@ import Login from './componenets/Auth/Login';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
+import Wishlist from './pages/Wishlist';
 // import { LoginLayout } from './componenets/Loginlayout';
 // // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -21,6 +22,7 @@ function App() {
       <Route path='/' element={<Home />} />
       <Route path='/shop' element={<Shop />} />
       <Route path='/cart' element={<Cart />} />
+      <Route path='/wishlist' element={<Wishlist />} />
       {/* </Route> */}
       {/* <Route element={<Layout />} >
         

@@ -26,8 +26,9 @@ exports.addWishlistService=async(userId,productId)=>{
     else{
         userFavourite.wishlist.push(productId)
         await userFavourite.save()
-        return userFavourite.wishlist
-    }   
+       
+    }
+    return await Favourite.findOne({user:userId}).populate("wishlist") 
 }
 
 //get wishlist

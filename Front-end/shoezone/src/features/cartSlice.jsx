@@ -44,6 +44,18 @@ export const removeCart=createAsyncThunk('cart/removeCart',async(productId,{reje
     }
 })
 
+//update quantity
+export const updateCartQuantity=createAsyncThunk('cart/updateCartQuantity',async({productId,quantity},{dispatch,rejectWithValue})=>{
+    try{
+        const response=await axiosInstance.patch(endPoints.CART.UPDATE_QUANTITY,{productId,quantity})
+        await dispatch(getCart())
+        return response.data
+    }
+    catch(error){
+        return rejectWithValue(error.response?.data?.message ||"Error uploading cart quantity")
+    }
+})
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -93,6 +105,9 @@ const cartSlice = createSlice({
     .addCase(removeCart.fulfilled,(state,action)=>{
         state.loading=false
         state.cart=state.cart.filter((item)=>item.id!==action.payload)
+    })
+    .addCase(updateCartQuantity.fulfilled,(state)=>{
+        state.loading=false
     })
   },
 });

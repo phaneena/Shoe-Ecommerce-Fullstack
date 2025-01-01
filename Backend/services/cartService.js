@@ -24,12 +24,14 @@ exports.AddCartServices=async(productId,userId)=>{
             throw new CustomError('You cannot add the product to the quantity,stock is empty',400)
         }
         cart.products[existingIndex].quantity+=1
+        await cart.save()
         throw new CustomError('Product already exist in the cart',400) //quantity increased
     }
     else{
         cart.products.push({product:productId,quantity:1})
+        await cart.save()
     }
-    await cart.save()
+    
 
 }
 

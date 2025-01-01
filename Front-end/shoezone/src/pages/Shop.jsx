@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-// import { shoecontext } from "../Context/ShopContext";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 import { IoMdClose } from "react-icons/io";
-// import axiosInstance from "../api/axiosInstance";
-// import { endPoints } from "../api/endPoints";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/productSlice";
 import { addToCart } from "../features/cartSlice";
+import { changeFavorite,getFavorite } from "../features/favouriteSlice";
 
 function Shop() {
   // const [search,setSearch]=useState('')
   const dispatch = useDispatch();
+  const {favorite}=useSelector((state)=>state.favorite)
   const { products, pagination, loading, error } = useSelector(
     (state) => state.product
   );
-//   const navigate = useNavigate();
-  const [page,setPage]=useState(1)
+  //   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const openModal = (productList) => {
@@ -33,7 +33,7 @@ function Shop() {
       setPage(newPage);
     }
   };
-  
+
   // const handleSearch=(e)=>{
   //     setSearch(e.target.value)
   // }
@@ -41,22 +41,31 @@ function Shop() {
   //     product.name.toLowerCase().includes(search.toLowerCase())
   // })
 
+//get product
   useEffect(() => {
-    dispatch(getAllProducts({ page}));
-  }, [dispatch,page]);
+    dispatch(getAllProducts({ page }));
+    dispatch(getFavorite())
+  }, [dispatch, page]);
+
 
   //addtocart
-  const handleAddToCart=(id)=>{
-    dispatch(addToCart(id))
-    toast.success('Added to cart successfully')
-  }
+  const handleAddToCart = (id) => {
+    dispatch(addToCart(id));
+    toast.success("Added to cart successfully");
+  };
 
-  if (loading){
+  const handleFavorite = async (id) => {
+      dispatch(changeFavorite(id)).unwrap();
+      toast.success("Updated Favorites");
+  };
+  
+
+  if (loading) {
     return <div>Loading...</div>;
   }
-  if (error){
+  if (error) {
     return <div>Error: {error}</div>;
-  } 
+  }
 
   console.log(products);
 
@@ -75,30 +84,35 @@ function Shop() {
               <img
                 src={product.images}
                 alt={product.name}
-                className="w-full h-60 rounded-t object-cover" // Full width and height of the container
+                className="w-full h-60 rounded-t object-cover" 
               />
               <h1 className="mt-2 text-lg font-semibold text-center">
                 {product.name}
               </h1>
               <p className="mt-1 text-gray-700 text-center">
-                {" "}
                 ₹ {product.price}
               </p>
-              <button
-                className="w-full mt-3 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300"
-                onClick={() => {
-                    handleAddToCart(product._id)
-                //   if (localStorage.getItem("id")) {
-                //     addToCart(product);
-                //     toast.success('Item added successfully')
-                //   } else {
-                //     toast.success("Must be logged in");
-                //     navigate("/login");
-                //   }
-                }} // Call the add to cart function
-              >
-                Add to Cart
-              </button>
+              {product.quantity===0 &&(<span className="text-red-500 py-1 px-3">Out of Stock</span>)}
+              <div className="flex items-center space-x-2 bg-gray-500">
+                {/* Add to Cart Button */}
+                <button
+                  className="w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300"
+                  onClick={() => {
+                    handleAddToCart(product._id);
+                  }}
+                >
+                  Add to Cart
+                </button>
+
+                {/* Wishlist Button */}
+                <button onClick={() => handleFavorite(product._id)}>
+                  {favorite.some((item) => item._id === product._id) ? (
+                    <MdFavorite className="text-3xl text-red-500 hover:text-red-600 transition-colors duration-200" />
+                  ) : (
+                    <MdFavoriteBorder className="text-3xl text-red-700 hover:text-red-800  transition-colors duration-200" />
+                  )}
+                </button>
+              </div>
             </div>
           ))
         ) : (
@@ -146,45 +160,58 @@ function Shop() {
 
       {/* modal of product descriptions */}
       {selectedProduct && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-4 relative max-h-[90vh] overflow-y-auto">
-      <IoMdClose
-        className="absolute top-4 right-4 cursor-pointer text-3xl text-gray-600 hover:text-gray-900"
-        onClick={closeModal}
-      />
-      <img
-        src={selectedProduct.images}
-        alt={selectedProduct.name}
-        className="w-full h-40 sm:h-60 object-cover rounded-lg mb-4"
-      />
-      <h1 className="text-xl sm:text-2xl font-bold mb-4">
-        {selectedProduct.name}
-      </h1>
-      <p className="text-gray-700 mb-2"><strong>Price:</strong> ₹ {selectedProduct.price}</p>
-      <p className="text-gray-700 mb-2">
-        <strong>Category:</strong> {selectedProduct.categories}
-      </p>
-      <p className="text-gray-700 mb-2">
-        <strong>Quantity:</strong>{" "}
-        {selectedProduct.quantity}
-      </p>
-      <p className="text-gray-600 mb-4">
-        <strong>Description:</strong>{" "}
-        {selectedProduct.description || "No description available."}
-      </p>
-      
-      <button
-        className="bg-red-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-700 w-full"
-        onClick={() => {
-          addToCart(selectedProduct);
-          closeModal();
-        }}
-      >
-        Add to Cart
-      </button>
-    </div>
-  </div>
-)}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-4 relative max-h-[90vh] overflow-y-auto">
+            <IoMdClose
+              className="absolute top-4 right-4 cursor-pointer text-3xl text-gray-600 hover:text-gray-900"
+              onClick={closeModal}
+            />
+            <img
+              src={selectedProduct.images}
+              alt={selectedProduct.name}
+              className="w-full h-40 sm:h-60 object-cover rounded-lg mb-4"
+            />
+            <h1 className="text-xl sm:text-2xl font-bold mb-4">
+              {selectedProduct.name}
+            </h1>
+            <p className="text-gray-700 mb-2">
+              <strong>Price:</strong> ₹ {selectedProduct.price}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <strong>Category:</strong> {selectedProduct.categories}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <strong>Quantity:</strong> {selectedProduct.quantity}
+            </p>
+            <p className="text-gray-600 mb-4">
+              <strong>Description:</strong>{" "}
+              {selectedProduct.description || "No description available."}
+            </p>
+
+            <div className="flex items-center space-x-2 bg-gray-500">
+              {/* Add to Cart Button */}
+              <button
+                className="w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition duration-300"
+                onClick={() => {
+                  handleAddToCart(selectedProduct._id);
+                  closeModal();
+                }}
+              >
+                Add to Cart
+              </button>
+
+              {/* Wishlist Button */}
+              <button onClick={()=>handleFavorite(selectedProduct._id)} className="relative p-2 rounded-full hover:bg-gray-600 transition duration-300">
+              {favorite.includes(selectedProduct._id) ? (
+                    <MdFavorite className="text-3xl  text-green-500 hover:text-red-600 transition-colors duration-200" />
+                  ) : (
+                    <MdFavoriteBorder className="text-3xl hover:text-red-800  transition-colors duration-200" />
+                  )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
