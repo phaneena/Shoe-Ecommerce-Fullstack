@@ -5,7 +5,10 @@ export const endPoints = {
       REFRESH_TOKEN: "/refresh-token",
     },
     PRODUCTS:{
-      GET_PRODUCTS:"/users/getProducts"
+      GET_PRODUCTS:"/users/getProducts",
+      ADD_PRODUCTS:"/admin/addproduct",
+      DELETE_PRODUCT:(productId)=>`/admin/deleteproduct/${productId}`,
+      EDIT_PRODUCT:"/admin/updateproduct"
     },
     CART:{
       ADD_TO_CART:(productId)=>`/users/addToCart/${productId}`,

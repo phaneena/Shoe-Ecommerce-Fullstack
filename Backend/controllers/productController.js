@@ -52,6 +52,7 @@ exports.deleteProduct=asyncHandler(async(req,res)=>{
 //update Product
 exports.updateProduct=asyncHandler(async(req,res)=>{
     const {_id,...updateItems}=req.body
+    console.log(_id)
     if(!_id){
         throw new CustomError('Product is not found')
     }

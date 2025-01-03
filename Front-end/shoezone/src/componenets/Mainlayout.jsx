@@ -1,12 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
-import { Search } from "../Pages/Search";
+// import { Search } from "../Pages/Search";
 const Layout = () => {
   return (
     <div style={styles.layout}>
       <Navbar />
-      <Search />
+      {/* <Search /> */}
       <div style={styles.content}>
         <Outlet />
       </div>
