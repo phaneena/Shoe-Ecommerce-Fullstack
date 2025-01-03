@@ -30,7 +30,7 @@ app.use("/api/users", orderRouter);
 app.use("/api/users", wishlistRouter);
 app.use("/api/admin", AdminRouter);
 
-app.use(errorHandler);
+// app.use(errorHandler);
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {

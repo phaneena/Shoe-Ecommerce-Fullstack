@@ -115,7 +115,7 @@ function Cart() {
             </div>
             <button
               className="bg-gray-200 text-black px-8 py-2 rounded-2xl hover:bg-green-900 hover:text-white text-sm"
-              onClick={() => navigate("/order")}
+              onClick={() => navigate("/payment")}
             >
               PLACE YOUR ORDER
             </button>

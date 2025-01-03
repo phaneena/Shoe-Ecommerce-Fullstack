@@ -6,9 +6,9 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
-// import Order from './pages/Order';
 import { LoginLayout } from './componenets/Loginlayout';
 import AdminProduct from './componenets/Admin/Adminproduct';
+import PaymentDetails from './pages/PaymentDetails';
 // // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -21,6 +21,7 @@ function App() {
     <Route element={<LoginLayout />} >
       <Route path='register' element={<Register />} />
       <Route path='login' element={<Login />} />
+      <Route path='/payment' element={<PaymentDetails />} />
       
       </Route>
       <Route element={<Layout />} >
@@ -28,7 +29,7 @@ function App() {
       <Route path='/shop' element={<Shop />} />
       <Route path='/cart' element={<Cart />} />
       <Route path='/wishlist' element={<Wishlist />} />
-      {/* <Route path='/order' element={<Order />} /> */}
+      
       </Route>
 
       <Route path='/adminproduct' element={<AdminProduct />} />

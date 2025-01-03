@@ -19,5 +19,9 @@ export const endPoints = {
     FAVORITE:{
       GET_FAVORITE:"/users/getWishlist",
       ADD_FAVORITE:(productId)=>`/users/addWishlist/${productId}`
+    },
+    ORDER:{
+      CREATE_ORDER:"/users/addOrder",
+      VERIFY_PAYMENT:"/users/verifypayment"
     }
 }
