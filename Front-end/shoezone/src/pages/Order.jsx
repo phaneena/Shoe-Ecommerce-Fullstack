@@ -136,9 +136,13 @@ const Order = () => {
       {orders.length === 0 ? (
         <p className="text-center text-lg">No orders found.</p>
       ) : (
-        orders.map((order, index) => (
+        orders.map((order,index) => (
           <div key={index} className="mb-4 border p-4 rounded-md shadow-md">
             <p className="text-lg font-semibold mb-2">Order {index + 1}</p>
+            <p className="text-lg font-semibold mb-2">Order ID: {order._id}</p>
+            <p className="text-md mb-2">Full name: {order.name}</p>
+            <p className="text-md mb-2">Order Status: {order.status}</p>
+            <p className="text-md mb-2">Payment Status: {order.razorpayPaymentStatus}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
               {order.items.map((product) => (
                 <div

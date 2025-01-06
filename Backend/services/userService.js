@@ -61,3 +61,9 @@ exports.refreshAccessTokenService=async(refreshToken)=>{
 exports.logoutUserService = () => {
     return true;
 };
+
+
+exports.getUserDetails = async (id) => {
+    const user = await User.findById(id).select('username role');
+    return user;
+};

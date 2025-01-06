@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllProducts } from '../../features/productSlice';
-import { getAllUsers } from '../../features/adminSlice';
+import { getAllUsers, totalRevenue } from '../../features/adminSlice';
 
 const AdminHome = () => {
     const { user ,totalRevenues} = useSelector((state) => state.user);
@@ -12,6 +12,7 @@ const AdminHome = () => {
     useEffect(() => {
         dispatch(getAllProducts({}));
         dispatch(getAllUsers({}));
+        dispatch(totalRevenue())
     }, [dispatch]);
 
     

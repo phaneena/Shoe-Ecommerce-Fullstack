@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/productSlice";
 import { addToCart } from "../features/cartSlice";
 import { changeFavorite,getFavorite } from "../features/favouriteSlice";
+import { fetchUserDetails } from "../features/authSlice";
 
 function Shop() {
   // const [search,setSearch]=useState('')
@@ -15,6 +16,7 @@ function Shop() {
   const { products, pagination, loading, error } = useSelector(
     (state) => state.product
   );
+  const {user}=useSelector(state=>state.auth)
   //   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -45,18 +47,30 @@ function Shop() {
   useEffect(() => {
     dispatch(getAllProducts({ page }));
     dispatch(getFavorite())
+    dispatch(fetchUserDetails())
   }, [dispatch, page]);
 
 
   //addtocart
   const handleAddToCart = (id) => {
-    dispatch(addToCart(id));
+    if(user){
+        dispatch(addToCart(id));
     toast.success("Added to cart successfully");
+    }
+    else{
+        toast.error("Please login")
+    }
   };
 
   const handleFavorite = async (id) => {
-      dispatch(changeFavorite(id)).unwrap();
+    if(user){
+        dispatch(changeFavorite(id)).unwrap();
       toast.success("Updated Favorites");
+    }
+    else{
+        toast.error("Please Login")
+    }
+      
   };
   
 
@@ -119,7 +133,8 @@ function Shop() {
           <div className="text-center col-span-full">No products found.</div>
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer autoClose={1000} />
+
 
       {/* pagination */}
       <div className="flex justify-center items-center mt-10 space-x-4">

@@ -1,10 +1,14 @@
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../features/authSlice';
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
+  const dispatch=useDispatch()
 
   const handleLogout = () => {
     console.log('User logged out');
+    dispatch(logoutUser())
     navigate('/login');
   };
 
@@ -16,17 +20,17 @@ const AdminNavbar = () => {
         
         <div className="mt-8">
           <ul className="space-y-4">
-            <Link to="/admin" className="text-white">
+            <Link to="/admin" className="text-white no-underline">
               <li className="flex items-center p-4 hover:bg-gray-600 hover:text-white transition-all duration-300 font-medium cursor-pointer">
                 DASHBOARD
               </li>
             </Link>
-            <Link to="/adminuser" className="text-white">
+            <Link to="/adminuser" className="text-white no-underline">
               <li className="flex items-center p-4 hover:bg-gray-600 hover:text-white transition-all duration-300 font-medium cursor-pointer">
                 USER
               </li>
             </Link>
-            <Link to="/adminproduct" className="text-white">
+            <Link to="/adminproduct" className="text-white no-underline">
               <li className="flex items-center p-4 hover:bg-gray-600 hover:text-white transition-all duration-300 font-medium cursor-pointer">
                 PRODUCT
               </li>

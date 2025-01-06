@@ -40,6 +40,7 @@ function Register() {
       .required("please confirm your password"),
   });
   const RegisterSubmit = async (values, { resetForm }) => {
+    console.log(values)
     try {
       const { confirmpassword, ...payload } = values;
       const response = await axiosInstance.post(

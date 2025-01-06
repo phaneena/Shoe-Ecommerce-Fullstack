@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from '../../api/axiosInstance'
 import { endPoints } from "../../api/endPoints";
 import { toast, ToastContainer } from "react-toastify";
+import { setUser } from "../../features/authSlice";
 // import { productcontext } from "../../Context/Admincontext";
 
 function Login() {
@@ -26,10 +27,13 @@ function Login() {
   const onSubmit = async (values,{resetForm}) => {
     try{
       const response=await axiosInstance.post(endPoints.AUTH.LOGIN,values)
-      console.log(response)
+      
+      setUser(response.data.user.name) 
+      console.log(response.data,"lhttdrgdrgrh")
       const userRole=response.data.user.isAdmin ?'admin':'user'
       console.log(userRole)
-      localStorage.setItem('user',JSON.stringify(response.data.user))
+
+      // localStorage.setItem('user',JSON.stringify(response.data.user))
       navigate(userRole==='admin'?'/admin':'/')
       resetForm()
       toast.success(response.data.message)

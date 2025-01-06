@@ -3,7 +3,8 @@ const STATUS = require("../utils/constants");
 const {
   userRegisterServices,
   userLoginServices,
-  logoutUserService
+  logoutUserService,
+  getUserDetails
 } = require("../services/userService");
 const {
   registerValidation,
@@ -93,4 +94,13 @@ exports.logoutUser = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json({ message: 'Logged out successfully' });
+});
+
+
+exports.getLoggedInUser = asyncHandler(async(req, res) => {
+  const user = await getUserDetails(req.user._id);  
+  if (!user) {
+    throw new CustomError('User not found', 404);
+  }
+  res.status(200).json({ user });
 });

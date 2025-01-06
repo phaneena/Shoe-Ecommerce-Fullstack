@@ -19,17 +19,36 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-// Refresh Token
-export const refreshToken = createAsyncThunk(
-  "auth/refreshToken",
+// Login User
+// export const loginUser = createAsyncThunk(
+//   "auth/loginUser",
+//   async (userData, { rejectWithValue }) => {
+//     try {
+//       const response = await axiosInstance.post(
+//         endPoints.AUTH.LOGIN,
+//         userData,
+//       );
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || "Error in login");
+//     }
+//   }
+// );
+
+// Logined User Details
+export const fetchUserDetails = createAsyncThunk(
+  "auth/fetchUserDetails",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(endPoints.AUTH.REFRESH_TOKEN);
-      console.log(response.data);
-      return response.data;
+      const response = await axiosInstance.get(endPoints.AUTH.ME);
+      console.log(response.data.user);
+      return response.data.user;
     } catch (error) {
+      if (error.response?.status === 401) {
+        return rejectWithValue("Please login with your credentials");
+      }
       return rejectWithValue(
-        error.response?.data?.message || "Error in refresh token"
+        error.response?.data?.message || "Error in logined person"
       );
     }
   }
@@ -42,25 +61,14 @@ const authSlice = createSlice({
     isAdmin: false,
     loading: false,
     error: null,
+    user: null,
   },
   reducers: {
+    setUser: (state,action)=>state.user=action.payload,
     resetAuthState: () => initialState,
   },
   extraReducers: (builder) => {
     builder
-      // Refresh Token
-      .addCase(refreshToken.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(refreshToken.fulfilled, (state) => {
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(refreshToken.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       // Logout User
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;
@@ -76,10 +84,39 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      // Fetch User Details
+      .addCase(fetchUserDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        console.log(state.user,'usersss')
+        state.error = null;
+
+        if (action.payload.role === "admin") {
+          state.isAdmin = true;
+          state.isAuthenticated = false;
+        } else if (action.payload.role === "user") {
+          state.isAdmin = false;
+          state.isAuthenticated = true;
+        } else {
+          state.isAdmin = false;
+          state.isAuthenticated = false;
+        }
+      })
+      .addCase(fetchUserDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.user = null;
+        state.isAuthenticated = false;
+        state.isAdmin = false;
+      })
   },
 });
 
-export const { resetAuthState } = authSlice.actions;
+export const { resetAuthState,setUser } = authSlice.actions;
 
 export default authSlice.reducer;

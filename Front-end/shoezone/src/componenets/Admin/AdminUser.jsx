@@ -94,7 +94,7 @@ function AdminUser() {
             <tr
               key={user._id}
               className="hover:bg-gray-500 hover:text-white"
-              onClick={() => handleDoubleClick(user._id)}
+              onDoubleClick={() => handleDoubleClick(user._id)}
             >
               <td className="px-2 py-2">{user.name}</td>
               <td className="px-2 py-2">{user.username}</td>

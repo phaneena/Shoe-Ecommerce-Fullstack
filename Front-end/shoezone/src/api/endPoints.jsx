@@ -3,7 +3,8 @@ export const endPoints = {
       LOGIN: "/login",
       REGISTER: "/register",
       REFRESH_TOKEN: "/refresh-token",
-      LOGOUT:"/logout"
+      LOGOUT:"/logout",
+      ME:"/me"
     },
     PRODUCTS:{
       GET_PRODUCTS:"/users/getProducts",

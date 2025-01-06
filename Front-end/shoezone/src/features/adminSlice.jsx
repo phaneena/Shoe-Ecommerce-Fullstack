@@ -75,7 +75,7 @@ export const totalRevenue = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(endPoints.ADMIN.SALE_PRICE);
-      console.log(response.data);
+      console.log(response.data, 'hello revenue');
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -86,21 +86,7 @@ export const totalRevenue = createAsyncThunk(
 );
 
 
-//get all order
-export const fetchOrders = createAsyncThunk(
-    'orders/fetchOrders',
-    async (_, { rejectWithValue }) => {
-      try {
-        const response = await axiosInstance.get(endPoints.ADMIN.GET_ALL_ORDER );
-        console.log(response.data)
-        return response.data;
-      } catch (error) {
-        return rejectWithValue(
-          error.response?.data?.message || error.message || 'Error fetching orders'
-        );
-      }
-    }
-  );
+
 
 const adminSlice = createSlice({
   name: "users",
@@ -181,19 +167,8 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.totalRevenues = action.payload.total;
+        (state.totalRevenues)
         console.log(state.totalRevenues);
-      })
-      .addCase(fetchOrders.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchOrders.fulfilled, (state, action) => {
-        state.loading = false;
-        state.allOrderList = action.payload.orders;
-      })
-      .addCase(fetchOrders.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
       })
   },
 });
