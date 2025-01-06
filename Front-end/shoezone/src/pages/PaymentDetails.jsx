@@ -43,6 +43,7 @@ function PaymentDetail() {
           .unwrap()
           .then(() => navigate("/"))
           .catch((error) => {
+            console.error("Payment verification failed:", error); 
             toast.error("Payment verification failed. Try again.");
           });
       },
@@ -76,7 +77,7 @@ function PaymentDetail() {
 
   return (
     <div className="p-4 sm:p-8 md:w-3/4 lg:w-2/3 mx-auto">
-      <h1 className="text-center text-2xl font-semibold mb-6">ORDER PAGE</h1>
+      <h1 className="text-center text-2xl font-semibold mb-6">PAYMENT DETAILS</h1>
       <br />
       <Formik
         initialValues={initialValues}
@@ -134,12 +135,13 @@ function PaymentDetail() {
                 key={product.id}
                 className="flex justify-between py-2 border-b text-sm md:text-base"
               >
-                <p>{product.name}</p>
-                <p> ₹ {product.price}</p>
+                <p>{product.name}  <strong>X</strong>  <strong>{product.quantity}</strong></p>
+
+                <p> ₹ {Number(product.price) * Number(product.quantity)}</p>
               </div>
             ))}
             <p className="text-right font-semibold mt-2">
-              Total : ₹ {totalPrice}
+             <strong>Total </strong> : ₹ {totalPrice}
             </p>
           </div>
 

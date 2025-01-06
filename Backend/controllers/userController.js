@@ -3,6 +3,7 @@ const STATUS = require("../utils/constants");
 const {
   userRegisterServices,
   userLoginServices,
+  logoutUserService
 } = require("../services/userService");
 const {
   registerValidation,
@@ -72,4 +73,24 @@ exports.refreshToken = asyncHandler(async (req, res) => {
       status: STATUS.SUCCESS,
       message: "Access token refereshed",
     });
+});
+
+// Logout User
+exports.logoutUser = asyncHandler(async (req, res) => {
+  await logoutUserService();
+
+  res.clearCookie('accessToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: '/'
+  });
+  res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: '/'
+  });
+
+  res.status(200).json({ message: 'Logged out successfully' });
 });

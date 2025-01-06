@@ -9,6 +9,10 @@ import Wishlist from './pages/Wishlist';
 import { LoginLayout } from './componenets/Loginlayout';
 import AdminProduct from './componenets/Admin/Adminproduct';
 import PaymentDetails from './pages/PaymentDetails';
+import Order from './pages/Order';
+import Adminuser from './componenets/Admin/AdminUser';
+import Adminlayout from './componenets/Admin/AdminLayout';
+import AdminHome from './componenets/Admin/Dashboard';
 // // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -29,10 +33,14 @@ function App() {
       <Route path='/shop' element={<Shop />} />
       <Route path='/cart' element={<Cart />} />
       <Route path='/wishlist' element={<Wishlist />} />
+      <Route path='/order' element={<Order />} />
       
       </Route>
-
+    <Route element={<Adminlayout />}>
+    <Route path='/admin' element={<AdminHome />} />
       <Route path='/adminproduct' element={<AdminProduct />} />
+      <Route path='/adminuser' element={<Adminuser />} />
+      </Route>
     </Routes>
     
     </div>

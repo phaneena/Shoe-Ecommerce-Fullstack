@@ -5,6 +5,7 @@ const {
   singleUserService,
   userBlockService,
   totalRevenueService,
+  showOrderServices
 } = require("../services/adminService");
 
 //get all users
@@ -44,3 +45,26 @@ exports.totalRevenue = asyncHandler(async (req, res) => {
   const total = totalProfit.length > 0 ? totalProfit[0].totalRevenue : 0;
   res.json({ status: STATUS.SUCCESS, message: "total Revenue", total });
 });
+
+//single user order
+exports.getUserOrder = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { page } = req.query; 
+  const { orders,
+      pagination} = await showOrderServices(
+        id,
+    parseInt(page, 10) || 1, 
+    10 
+  );
+  const message = orders.length 
+  ? "Orders retrieved successfully" 
+  : "No orders found";
+  res.status(200).json({
+    status: STATUS.SUCCESS,
+    message,
+    orders,
+    pagination
+
+  });
+});
+

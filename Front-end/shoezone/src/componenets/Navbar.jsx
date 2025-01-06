@@ -3,49 +3,78 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { IoMdCart } from "react-icons/io";
-import {MdOutlineFavoriteBorder} from "react-icons/md";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/productSlice";
+import { toast } from "react-toastify";
 // import { toast, ToastContainer } from "react-toastify";
 
 function Navbar() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
-  const [search,setSearch]=useState('')
-  const dispatch=useDispatch()
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const {isAuthenticated}=useSelector(state=>state.auth)
+  const[log,setLog]=useState(false)
+  //   const [cart,setCart]=useState([])
+  const { cart } = useSelector((state) => state.cart);
+  console.log(cart);
 
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("id");
-//     toast.success("Logout successfully");
-//     navigate("/login");
-//     window.location.reload();
-//   };
-useEffect(()=>{
-    dispatch(getAllProducts({search}))
-},[search,dispatch])
+    // const handleLogout = () => {
+    //   localStorage.removeItem("id");
+    //   toast.success("Logout successfully");
+    //   navigate("/login");
+    //   window.location.reload();
+    // };
+  useEffect(() => {
+    dispatch(getAllProducts({ search }));
+  }, [search, dispatch]);
 
   const handleCart = () => {
-    navigate('/cart')
+    // if(isAuthenticated){
+        navigate("/cart");
+    // }
+    // else{
+    //     toast.success("Please login ")
+    // }
   };
 
-//   const handleOrderList = () => {
-//     if (!localStorage.getItem("id")) {
-//       toast.success("Must be logged in");
-//     } else {
-//       navigate("/orderlist");
-//     }
-//   };
+    const handleOrderList = () => {
+    //   if (!isAuthenticated) {
+    //     toast.success("Must be logged in");
+    //   } else {
+        navigate("/order");
+     
+    };
 
   const handleWishlist = () => {
-    // if (!localStorage.getItem("id")) {
+    // if (!isAuthenticated) {
     //   toast.success("Must be logged in");
     // } else {
-    //   navigate("/wishlist"); // Assuming you have a wishlist page
-    // }
-    navigate('/wishlist')
+      navigate("/wishlist");
+   
   };
+
+  //logout
+//   const handleLogout = () => {
+//     setLog(true);
+// };
+
+// const confirmLogout = () => {
+//     dispatch(logoutUser())
+//         .then(() => {
+//             navigate("/");
+//         })
+//         .catch((error) => {
+//             console.error("Logout error:", error);
+//         });
+//         setLog(false);
+// };
+
+// const cancelLogout = () => {
+//     setLog(false);
+// };
 
 
   return (
@@ -71,7 +100,7 @@ useEffect(()=>{
         <div className="flex items-center gap-6">
           <div className="relative group hidden sm:block">
             <input
-            value={search}
+              value={search}
               type="text"
               placeholder="Search"
               onChange={(e) => setSearch(e.target.value)}
@@ -83,34 +112,34 @@ useEffect(()=>{
             <CgProfile className="text-3xl cursor-pointer" />
             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
               <div className="flex flex-col gap-2 w-30 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                {!localStorage.getItem("id") && (
+                {!isAuthenticated && (
                   <Link to="/login">
                     <button className="cursor-pointer hover:text-black">
                       Login
                     </button>
                   </Link>
                 )}
-                {/* <button
+                <button
                   onClick={handleOrderList}
                   className="cursor-pointer hover:text-black"
                 >
                   Orders
-                </button> */}
-                {/* {localStorage.getItem("id") && (
-                //   <button
-                //     onClick={handleLogout}
-                //     className="cursor-pointer hover:text-black"
-                //   >
-                //     Logout
-                //   </button>
-                )} */}
+                </button>
+                {isAuthenticated && (
+                  <button
+                    onClick={handleLogout}
+                    className="cursor-pointer hover:text-black"
+                  >
+                    Logout
+                  </button>
+                )}
               </div>
             </div>
-            {/* {localStorage.getItem("id") ? (
+            {isAuthenticated ? (
               <div className="text-sm">{localStorage.getItem("name")}</div>
             ) : (
               ""
-            )} */}
+            )}
           </div>
           {/* Wishlist Icon */}
           <button onClick={handleWishlist} className="relative">
@@ -119,6 +148,11 @@ useEffect(()=>{
           {/* Cart Icon */}
           <button onClick={handleCart} className="relative">
             <IoMdCart className="text-3xl cursor-pointer" />
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                {cart.length}
+              </span>
+            )}
           </button>
           <IoIosMenu
             onClick={() => setVisible(true)}

@@ -25,6 +25,20 @@ export const verifypayment=createAsyncThunk("order/verifypayment",async(paymentD
     }
 })
 
+export const showOrders= createAsyncThunk(
+    'order/showOrders',
+    async (_, { rejectWithValue }) => {
+      try {
+        const response = await axiosInstance.get(endPoints.ORDER.SHOW_ORDER);
+        console.log(response.data.orders)
+        return response.data.orders;
+      } catch (error) {
+        return rejectWithValue(error.response?.data?.message || "Error in get orders");
+      }
+    }
+  );
+
+
 const orderSlice=createSlice({
     name:"order",
     initialState:{
@@ -52,15 +66,32 @@ const orderSlice=createSlice({
             state.loading=true
             state.error=null
           })
-          .addCase(verifypayment.fulfilled,(state)=>{
+          .addCase(verifypayment.fulfilled,(state,action)=>{
+            if (action.payload.paymentVerified) {
+                state.paymentVerified = true;
+              } else {
+                console.error("Payment verification response missing 'paymentVerified'");
+              }
             state.loading = false
-            state.paymentVerified=true
-            state.order.paymentVerified=true
+            // state.paymentVerified=true
+            // state.order.paymentVerified=true
           })
           .addCase(verifypayment.rejected,(state,action)=>{
             state.loading=false
             state.error=action.payload
           })
+          .addCase(showOrders.pending,(state)=>{
+            state.loading=true
+            state.error=null
+          })
+          .addCase(showOrders.fulfilled,(state,action)=>{
+            state.orders = action.payload;
+            state.loading=false
+          })
+          .addCase(showOrders.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.payload
+        })
     }
 })
 

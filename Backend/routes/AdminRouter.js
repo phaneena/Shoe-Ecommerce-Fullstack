@@ -12,6 +12,7 @@ const {
   singleUsers,
   userBlock,
   totalRevenue,
+  getUserOrder,
 } = require("../controllers/adminController");
 
 router.post("/addproduct", authenticate, isAdmin, addProducts);
@@ -26,5 +27,6 @@ router.get("/getusers", authenticate, isAdmin, allUsers);
 router.get("/getusers/:id", authenticate, isAdmin, singleUsers);
 router.patch("/blockUser/:id", authenticate, isAdmin, userBlock);
 router.get("/totalRevenue", authenticate, isAdmin, totalRevenue);
+router.get("/getUserOrder/:id",authenticate,isAdmin,getUserOrder)
 
 module.exports = router;

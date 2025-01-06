@@ -56,3 +56,8 @@ exports.refreshAccessTokenService=async(refreshToken)=>{
     const newAccessToken=generateAccessToken(user)
     return {newAccessToken}
 }
+
+//logout service
+exports.logoutUserService = () => {
+    return true;
+};

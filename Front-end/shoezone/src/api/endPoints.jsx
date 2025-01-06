@@ -3,6 +3,7 @@ export const endPoints = {
       LOGIN: "/login",
       REGISTER: "/register",
       REFRESH_TOKEN: "/refresh-token",
+      LOGOUT:"/logout"
     },
     PRODUCTS:{
       GET_PRODUCTS:"/users/getProducts",
@@ -22,6 +23,16 @@ export const endPoints = {
     },
     ORDER:{
       CREATE_ORDER:"/users/addOrder",
-      VERIFY_PAYMENT:"/users/verifypayment"
+      VERIFY_PAYMENT:"/users/verifypayment",
+      SHOW_ORDER:"/users/showOrder"
+    },
+    USER:{
+      GET_ALL_USER:"/admin/getusers",
+      GET_SINGLE_USER:(id)=>`/admin/getusers/${id}`,
+      BLOCK_USER:(id)=>`/admin/blockUser/${id}`,
+      GET_SINGLE_USER_ORDER:(id)=>`/admin/getUserOrder/${id}`
+    },
+    ADMIN:{
+      SALE_PRICE:"/admin/totalRevenue"
     }
 }
