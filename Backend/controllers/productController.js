@@ -7,6 +7,7 @@ const CustomError = require("../utils/customError");
 // get all products
 exports.getallProducts=asyncHandler(async(req,res)=>{
     const {search,categories,page}=req.query
+    console.log("hekekk")
     const {product,pagination}=await productService({
         search,
         categories,

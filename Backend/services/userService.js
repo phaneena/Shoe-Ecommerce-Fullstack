@@ -25,6 +25,7 @@ exports.userRegisterServices=async(data)=>{
 //service of login user
 exports.userLoginServices=async(email,password)=>{
     const userData=await User.findOne({email})
+    console.log(userData)
     if(!userData){
         throw new CustomError("Invalid email or Password",401)
     }

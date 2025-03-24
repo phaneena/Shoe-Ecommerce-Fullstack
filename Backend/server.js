@@ -15,11 +15,15 @@ require("dotenv").config();
 connectDB();
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL, // Add frontend URL here,
+  origin: "http://localhost:5176", // Add frontend URL here,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 app.use(cors(corsOptions));
+
+
+
 app.use(express.json());
 app.use(cookieParser());
 

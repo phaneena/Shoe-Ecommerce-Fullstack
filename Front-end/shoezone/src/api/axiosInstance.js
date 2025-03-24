@@ -4,9 +4,9 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL, // Use the BASE_URL from .env
   withCredentials: true,
   timeout: 5000,
-  // headers: {
-  //   "Content-Type": "application/json",
-  // },
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 let isRefreshing = false;

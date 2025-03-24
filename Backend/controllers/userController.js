@@ -30,9 +30,11 @@ exports.registerUser = asyncHandler(async (req, res) => {
 
 exports.loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
   const { error } = loginValidation.validate({ email, password });
   if (error) throw new CustomError(error.details[0].message, 400);
   const User = await userLoginServices(email, password);
+  console.log("user login successfully")
 
   const accessToken = generateAccessToken(User);
   const refreshToken = generateRefreshToken(User);
