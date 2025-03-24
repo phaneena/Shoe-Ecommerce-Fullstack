@@ -69,6 +69,7 @@ const orderSlice=createSlice({
           .addCase(verifypayment.fulfilled,(state,action)=>{
             if (action.payload.paymentVerified) {
                 state.paymentVerified = true;
+                console.log(action.payload.paymentVerified)
               } else {
                 console.error("Payment verification response missing 'paymentVerified'");
               }

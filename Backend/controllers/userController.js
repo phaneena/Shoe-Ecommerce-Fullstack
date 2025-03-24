@@ -17,7 +17,6 @@ const CustomError=require('../utils/customError')
 const { refreshAccessTokenService } = require("../services/userService");
 
 exports.registerUser = asyncHandler(async (req, res) => {
-  console.log("in registartion controll.....")
   const data = req.body;
   const { error } = registerValidation.validate(data);
   if (error) throw new CustomError(error.details[0].message, 400);
@@ -41,7 +40,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: false,
-      maxAge: 30 * 60 * 1000,
+      maxAge: 15 * 60 * 1000,
     })
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,

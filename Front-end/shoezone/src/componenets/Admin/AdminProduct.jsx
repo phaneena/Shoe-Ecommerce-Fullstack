@@ -61,6 +61,7 @@ const AdminProduct = () => {
     console.log(values);
     dispatch(addproduct(values)).unwrap()
     .then((response=>{
+      console.log("product added successfully",response)
         dispatch(getAllProducts({}))
     }))
     resetForm();
@@ -71,6 +72,7 @@ const AdminProduct = () => {
     console.log(values);
     dispatch(updateProduct(values)).unwrap()
     .then((response => {
+        console.log("update product",response)
         dispatch(getAllProducts({}))
     }))
     resetForm()

@@ -7,7 +7,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
 import { LoginLayout } from './componenets/Loginlayout';
-import AdminProduct from './componenets/Admin/Adminproduct';
+import AdminProduct from './componenets/Admin/AdminProduct';
 import PaymentDetails from './pages/PaymentDetails';
 import Order from './pages/Order';
 import Adminuser from './componenets/Admin/AdminUser';

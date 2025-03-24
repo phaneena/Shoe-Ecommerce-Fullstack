@@ -29,7 +29,7 @@ function Login() {
       const response=await axiosInstance.post(endPoints.AUTH.LOGIN,values)
       
       setUser(response.data.user.name) 
-      console.log(response.data,"lhttdrgdrgrh")
+      // console.log(response.data,"lhttdrgdrgrh")
       const userRole=response.data.user.isAdmin ?'admin':'user'
       console.log(userRole)
 
@@ -77,7 +77,7 @@ function Login() {
             </div>
             <div className="register-link mt-3">
               <p>
-                Don't have an account?
+                Don&nbsp;t have an account?
                 <br />
                 <Link to="/register" className="sign-up-link">
                   Register

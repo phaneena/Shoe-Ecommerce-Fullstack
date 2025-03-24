@@ -58,14 +58,13 @@ function Navbar() {
     try {
       await dispatch(logoutUser()).unwrap()
     
-      .then((response) =>
+      .then(() =>
         navigate('/')
       )
-      window.location.reload()
       toast.success("Logout successfully")
 
     } catch (error) {
-      toast.error("Error during logout");
+      toast.error("Error during logout: " + error.message);
     }
   };
 

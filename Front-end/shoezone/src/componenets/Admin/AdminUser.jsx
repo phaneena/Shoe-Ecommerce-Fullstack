@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { MdClose } from "react-icons/md";
 // import { Toaster } from "react-hot-toast";
@@ -14,7 +14,6 @@ function AdminUser() {
     loading: userLoading,
     error: userEroor,
     totalPages,
-    currentPage,
     userOrder,
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -34,6 +33,7 @@ function AdminUser() {
       dispatch(blockUser(id))
         .unwrap()
         .then((response) => {
+          console.log("get all users",response)
           dispatch(getAllUsers({}));
         });
     }
@@ -72,7 +72,7 @@ function AdminUser() {
   if (userEroor) {
     return (
       <div className="text-red-500 text-center py-4">
-        Error: {userEroor ? userEroor : orderError}
+        Error: {userEroor ? userEroor :""}
       </div>
     );
   }

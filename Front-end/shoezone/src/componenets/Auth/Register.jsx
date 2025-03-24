@@ -43,6 +43,7 @@ function Register() {
     console.log(values)
     try {
       const { confirmpassword, ...payload } = values;
+      console.log("password is confimed",confirmpassword)
       const response = await axiosInstance.post(
         endPoints.AUTH.REGISTER,
         payload

@@ -56,7 +56,6 @@ exports.deleteProductService=async(productId)=>{
     return await products.findByIdAndUpdate(
         productId,{isDelete:true},{new:true}
     )
-
 }
 
 //update a Product
